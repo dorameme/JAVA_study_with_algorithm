@@ -2,6 +2,8 @@
 공부한 날짜: 2024-06-13
 시간복잡도:O(n)
 공간복잡도:O(n)
+풀이: 나는 그냥 List로 반 나누고 reverse 시켜서 풀었는데
+러너를 쓰면(1배로 움직이기,2배로 움직이기) 어떠한 콜렉션을 쓸 필요 없어서 더 성능을 월등하게 만들 수 있다.
 */
 import java.util.ArrayList;
 import java.util.LinkedList;
