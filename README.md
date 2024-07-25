@@ -1,7 +1,7 @@
-# 시간 초과 해결법
 
+# 알고리즘 문제 해결법
 <details>
-  <summary><strong>1. 입출력 문제</strong></summary>
+  <summary><strong>1. 시간 초과 문제 해결법</strong></summary>
 
   ### Scanner vs BufferedReader
   - **Scanner**는 다양한 기능을 포함하고 있는 무거운 클래스라 속도가 느리다.
@@ -18,9 +18,7 @@
   3. BufferedReader는 Scanner보다 안전하다.
   4. BufferedReader가 Scanner보다 실행 속도가 빠르다.
 
-
-
-## 2. StringTokenizer 사용법
+### StringTokenizer 사용법
 자바에서는 문자열을 토큰 단위로 끊어주는 **StringTokenizer** 클래스를 제공한다.
 
 - 예를 들어, `"A is my string"`이라는 문자열을 `"A"`, `"is"`, `"my"`, `"string"` 4개의 문자열로 끊어준다.
@@ -50,4 +48,22 @@ public class Main {
     }
 }
 ```
+</details>
+
+<details>
+  <summary><strong>2. 메모리 초과 문제 해결법</strong></summary>
+
+  ### 메모리 계산
+  256MB까지 사용 가능할 때 `int`는 4바이트이므로:
+  - `int`형은 4바이트
+  - 1KB는 1024바이트
+  - 1MB는 1024KB이므로
+  - 256MB = 256 * 1024KB = 256 * 1024 * 1024바이트 = 약 268,435,456바이트
+  - `int`형은 256 * 1024 * 1024 / 4개 = 약 67,108,864개 선언 가능
+
+  대략 `int`형 67,108,864개 정도 가능!
+  필요한 만큼만 할당해서 쓰자!
+  (사실 1024로 계산하기가 까다로워서, 대충 1000이라고 놓고 계산하면 얼추 맞다.)
+
+
 </details>
