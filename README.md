@@ -111,3 +111,38 @@ void floydWarshall() {
 4. 네트워크 라우팅
    - 네트워크 토폴로지에서 최적 경로 결정
 </details>
+
+
+<details>
+  <summary><strong>Primitive vs Wrapper Class의 특징</strong></summary>
+
+| 특징 | Primitive 타입 | Wrapper 클래스 |
+|------|---------------|----------------|
+| 종류 | boolean, byte, char, short, int, long, float, double | Boolean, Byte, Character, Short, Integer, Long, Float, Double |
+| 기본값 | 0, 0.0, false, '\u0000' | null |
+| 메모리 | 스택에 직접 저장 (적은 용량) | 힙 메모리 사용 (더 많은 용량) |
+| null 허용 | 불가능 | 가능 |
+| 컬렉션 사용 | 불가능 | 가능 |
+| 메서드 | 없음 | 다양한 유틸리티 메서드 제공 |
+| 성능 | 빠름 | 상대적으로 느림 |
+| 자동 초기화 (멤버변수) | O | O (null로) |
+| 자동 초기화 (지역변수) | X | X |
+| 용도 | 간단한 값 저장, 성능 중시 | 객체가 필요한 경우, null 필요시 |
+| 박싱/언박싱 | 해당 없음 | 자동 지원 |
+
+### 사용 예시
+```java
+// Primitive
+int num1 = 10;
+num1 = null;  // 컴파일 에러
+
+// Wrapper
+Integer num2 = 10;  // 자동 박싱
+num2 = null;       // 가능
+int num3 = num2;   // 자동 언박싱
+
+// 컬렉션 사용
+ArrayList<Integer> list = new ArrayList<>();  // 가능
+ArrayList<int> list2;                        // 불가능
+```
+</details>
