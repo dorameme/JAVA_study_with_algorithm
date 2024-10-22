@@ -16,7 +16,10 @@ Therefore, you cannot use bw::writeas a direct method reference.
 Whitespace handling issues:
 When you simply call write(), there are no spaces between words.
 In the current code, you need to add a space to each word.
- 
+
+ It is a Java limitation that you cannot throw a checked exception directly inside a lambda expression, 
+ even if the IOException is being handled in the main method
+
  * */
 
 import java.io.BufferedReader;
