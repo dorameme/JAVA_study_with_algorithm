@@ -10,8 +10,8 @@
  Arrays.stream(s).forEach(bw::write);
 does not work because of the following reasons
 Exception handling issues:
-TheBufferedWriter.write() method can throw an IOException.
-The lambda expression inforEachcannot throw a checked exception.
+The BufferedWriter.write() method can throw an IOException.
+The lambda expression in forEach() cannot throw a checked exception.
 Therefore, you cannot use bw::writeas a direct method reference.
 Whitespace handling issues:
 When you simply call write(), there are no spaces between words.
