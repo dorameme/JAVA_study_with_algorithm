@@ -217,3 +217,181 @@ ArrayList<int> list2;                        // 불가능
    - 경계값 케이스
    - 일반적인 케이스
 </details>
+
+
+
+<details>
+<summary><strong>TLE 방지하는법</strong></summary>
+
+1. **입출력 최적화**
+   - Scanner → BufferedReader로 교체
+   - System.out.println() → BufferedWriter로 교체
+   - split() → StringTokenizer로 교체
+   ```java
+   // Before
+   Scanner sc = new Scanner(System.in);
+   // After
+   BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+   BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+   ```
+   
+
+2. **자료구조 최적화**
+   - ArrayList의 contains() → HashSet으로 교체 (O(n) → O(1))
+   - List 순차 탐색 → 배열 인덱싱으로 교체
+   - String 연산 → StringBuilder 사용
+   ```java
+   // Before
+   if(list.contains(x))  // O(n)
+   // After
+   if(set.contains(x))   // O(1)
+   ```
+
+3. **알고리즘 복잡도 체크**
+   - N ≤ 500: O(N³) 가능
+   - N ≤ 2000: O(N²) 가능
+   - N ≤ 100,000: O(NlogN) 가능
+   - N ≤ 10,000,000: O(N) 가능
+
+4. **불필요한 연산 제거**
+   - 반복문 내 객체 생성 지양
+   - 반복문 내 불변값 미리 계산
+   - 중복 계산 제거
+   ```java
+   // Before
+   for(int i = 0; i < n; i++) {
+       int temp = Math.sqrt(n);  // 매번 계산
+   }
+   // After
+   double sqrtN = Math.sqrt(n);  // 미리 계산
+   for(int i = 0; i < n; i++) {
+       int temp = sqrtN;
+   }
+   ```
+
+5. **메모리 사용 최적화**
+   - Wrapper 클래스 대신 Primitive 타입 사용
+   - 필요한 만큼만 배열 크기 할당
+   - 불필요한 객체 생성 방지
+   ```java
+   // Before
+   Integer[] arr = new Integer[n];
+   // After
+   int[] arr = new int[n];
+   ```
+
+6. **반복문 최적화**
+   - 중첩 반복문 줄이기
+   - break 조건 최적화
+   - 범위를 줄일 수 있다면 줄이기
+   ```java
+   // Before
+   for(int i = 0; i < n; i++)
+       for(int j = 0; j < n; j++)
+   // After (가능한 경우)
+   for(int i = 0; i < n; i++)
+       for(int j = i + 1; j < n; j++)
+   ```
+
+7. **전처리 활용**
+   - 반복적으로 사용되는 값 미리 계산
+   - 조회가 잦은 데이터는 캐싱
+   ```java
+   // 소수 판별 같은 경우 미리 계산
+   boolean[] isPrime = new boolean[MAX_N];
+   void preCalculate() {
+       // 에라토스테네스의 체 등으로 미리 계산
+   }
+   ```
+
+</details>
+
+<details>
+<summary><strong>자료구조 선택 가이드</strong></summary>
+
+### 1. 순차적 데이터 저장/접근
+- **ArrayList**: 인덱스로 빠른 접근, 끝에서 추가/삭제가 많은 경우
+   ```java
+   List<Integer> list = new ArrayList<>();  // 랜덤 접근 많을 때
+   ```
+- **LinkedList**: 중간에 삽입/삭제가 많은 경우
+   ```java
+   List<Integer> list = new LinkedList<>();  // 중간 삽입/삭제 많을 때
+   ```
+
+### 2. 중복 제거/집합 연산
+- **HashSet**: 빠른 검색, 순서 불필요
+   ```java
+   Set<Integer> set = new HashSet<>();  // 단순 중복 제거
+   ```
+- **TreeSet**: 정렬 필요, 범위 검색
+   ```java
+   Set<Integer> set = new TreeSet<>();  // 정렬된 중복 제거
+   ```
+- **LinkedHashSet**: 삽입 순서 유지
+   ```java
+   Set<Integer> set = new LinkedHashSet<>();  // 순서있는 중복 제거
+   ```
+
+### 3. 키-값 매핑
+- **HashMap**: 빠른 검색
+   ```java
+   Map<String, Integer> map = new HashMap<>();  // 단순 매핑
+   ```
+- **TreeMap**: 키 기준 정렬, 범위 검색
+   ```java
+   Map<String, Integer> map = new TreeMap<>();  // 정렬된 매핑
+   ```
+- **LinkedHashMap**: 삽입 순서 유지
+   ```java
+   Map<String, Integer> map = new LinkedHashMap<>();  // 순서있는 매핑
+   ```
+
+### 4. 특수 목적
+- **PriorityQueue**: 우선순위 기반 처리
+   ```java
+   Queue<Integer> pq = new PriorityQueue<>();  // 최소힙
+   Queue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());  // 최대힙
+   ```
+- **ArrayDeque**: 양방향 큐/스택
+   ```java
+   Deque<Integer> deque = new ArrayDeque<>();  // 양방향 큐
+   ```
+- **Stack**: LIFO(Last In First Out)
+   ```java
+   Stack<Integer> stack = new Stack<>();  // 스택 (권장하지 않음, ArrayDeque 사용 권장)
+   ```
+
+### 시간복잡도 비교
+
+| 자료구조 | 접근 | 검색 | 삽입(일반) | 삽입(첫/끝) | 삭제(일반) | 삭제(첫/끝) | 정렬 상태 | 순서 보장 |
+|---------|------|------|------------|------------|------------|------------|-----------|-----------|
+| ArrayList | O(1) | O(n) | O(n) | O(1)* | O(n) | O(1)* | X | O |
+| LinkedList | O(n) | O(n) | O(1) | O(1) | O(1) | O(1) | X | O |
+| HashSet | - | O(1) | O(1) | - | O(1) | - | X | X |
+| TreeSet | - | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | O | X |
+| LinkedHashSet | - | O(1) | O(1) | - | O(1) | - | X | O |
+| HashMap | O(1) | O(1) | O(1) | - | O(1) | - | X | X |
+| TreeMap | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | O | X |
+| LinkedHashMap | O(1) | O(1) | O(1) | - | O(1) | - | X | O |
+| PriorityQueue | - | O(n) | O(log n) | - | O(log n) | - | 부분** | X |
+| ArrayDeque | O(1) | O(n) | - | O(1) | - | O(1) | X | O |
+| Stack | O(n) | O(n) | - | O(1) | - | O(1) | X | O |
+
+\* 재할당 필요시 O(n)  
+** PriorityQueue는 추출할 때만 정렬 상태 보장
+
+### 메모리 사용량 및 추가 특징
+1. ArrayList vs LinkedList:
+   - ArrayList: 연속 메모리, 캐시 친화적
+   - LinkedList: 분산 메모리, 추가 참조 저장
+
+2. Hash계열 vs Tree계열:
+   - Hash: 메모리 더 사용, 빠른 접근
+   - Tree: 메모리 적게 사용, 정렬 보장
+
+3. Priority Queue:
+   - 힙 구조로 구현
+   - 완전 이진 트리 형태로 메모리 효율적
+
+</details>
