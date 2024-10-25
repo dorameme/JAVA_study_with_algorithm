@@ -395,3 +395,63 @@ ArrayList<int> list2;                        // 불가능
    - 완전 이진 트리 형태로 메모리 효율적
 
 </details>
+<details>
+  <summary><strong>변수 스코프에 대한 이해</strong></summary>
+
+### 1. 변수 스코프
+변수 스코프는 **변수가 사용할 수 있는 영역**을 의미하며, 변수의 선언 위치에 따라 접근 가능 범위가 달라진다. 자바에서는 변수 스코프가 **멤버 변수**와 **지역 변수**로 나뉘며, 메서드 안에서 선언된 지역 변수는 해당 메서드 내부에서만 사용 가능하다.
+
+### 2. 람다와 변수 스코프
+람다식은 자바 8에서 도입된 **익명 함수**로, 외부 지역 변수를 람다 내부에서 사용하려면 **effective final** 상태여야 한다. 이는 람다식 내부에서 외부 변수를 사용할 수 있으나, 해당 변수는 변경될 수 없고 사실상 final과 같은 상태여야 함을 의미한다.
+
+```java
+int num = 10;
+Runnable r = () -> System.out.println(num); // 가능, num이 변경되지 않음
+num = 20; // 불가능, 람다식에서 접근하는 변수는 effective final 상태여야 함
+```
+
+### 3. effective final
+effective final은 **final 키워드가 명시적으로 없더라도 변경되지 않는 변수**를 의미한다. 람다식 내부에서 사용하는 외부 변수는 이 특성을 가져야 한다.
+
+#### 예시
+```java
+int x = 5;
+Consumer<Integer> consumer = (y) -> System.out.println(x + y); // x는 effective final
+x = 10; // 오류 발생
+```
+
+해당 코드에서 `x`가 수정되지 않으면 `x`는 effective final로 간주되어 사용할 수 있지만, `x`의 값을 변경하려 할 경우 자바는 이를 허용하지 않는다.
+
+#### effective final 제약 이유
+자바는 변수의 일관성과 **안전한 동시성**을 유지하기 위해 람다 내부에서 외부의 지역 변수를 수정할 수 없도록 제한하며, 여러 스레드에서 람다식을 동시에 호출할 때 외부 변수를 보호하기 위함이다.
+
+### 4. 예제 코드: 람다식과 effective final
+```java
+public class Main {
+    public static void main(String[] args) {
+        int base = 5;
+        Runnable r = () -> {
+            System.out.println("Result: " + (base + 10));
+        };
+        
+        // base = 20;  // 이 코드가 있다면 오류 발생
+        r.run(); // 출력: Result: 15
+    }
+}
+```
+
+위 코드는 정상 실행되며, `base`가 변경되지 않으므로 effective final로 취급되어 안전하게 사용 가능하다.
+
+### 5. 해결 방법: Atomic 클래스 사용
+람다식 내부에서 외부 변수를 수정하려면 `AtomicInteger` 같은 **Atomic 클래스**를 사용하여 멀티스레드 환경에서 안전하게 변수 수정이 가능하도록 한다.
+
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+
+AtomicInteger sum = new AtomicInteger(0);
+numbers.forEach(num -> sum.addAndGet(num)); // sum 값을 안전하게 업데이트
+System.out.println(sum.get()); // 결과 출력
+```
+
+
+</details>
