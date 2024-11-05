@@ -111,7 +111,75 @@ void floydWarshall() {
 4. 네트워크 라우팅
    - 네트워크 토폴로지에서 최적 경로 결정
 </details>
+<details> <summary><strong>개념-다익스트라</strong></summary>
 
+### 1. 다익스트라의 개념
+- 하나의 시작점에서 다른 모든 노드까지의 최단 경로를 구하는 알고리즘
+- 음수 가중치가 있으면 사용 불가능
+- 매 단계마다 방문하지 않은 노드 중 가장 비용이 적은 노드를 선택
+- 그리디(Greedy) 알고리즘의 일종
+
+### 2. 시간복잡도
+* **O((V + E) log V)**: 다익스트라 알고리즘은 우선순위 큐(힙)를 사용하는 경우에 이 복잡도를 가진다.
+   * **V**는 정점의 개수, **E**는 간선의 개수이다.
+   * 알고리즘은 각 정점을 한 번씩 방문하며, 우선순위 큐를 사용해 최단 거리를 가진 정점을 선택하고, 그 정점에서 나가는 간선을 탐색.
+   * 각 정점을 큐에서 꺼낼 때의 복잡도는 **log V**이며, 총 V개의 정점을 다루므로 **V * log V**가 발생.
+   * 또한, 각 간선을 업데이트할 때마다 큐에 삽입하거나 갱신하게 되는데, E개의 간선에 대해 **log V** 연산이 소요됨.
+   * 이를 종합하여 **O((V + E) log V)**가 됨.
+
+### 3. 공간복잡도
+* **O(V + E)**: 공간복잡도는 주로 **V**와 **E**에 따라 결정.
+   * **V**는 각 정점에 대한 최단 거리 정보를 저장하는 배열.
+   * **E**는 각 간선을 저장하는 그래프의 인접 리스트 또는 배열에 대한 공간.
+   * 따라서, 공간복잡도는 **O(V + E)**가 됨.
+
+### 4. 사용법 (코드)
+```java
+void dijkstra(int start) {
+    PriorityQueue<Node> pq = new PriorityQueue<>();
+    dist[start] = 0;
+    pq.offer(new Node(start, 0));
+    
+    while(!pq.isEmpty()) {
+        Node current = pq.poll();
+        
+        if(dist[current.vertex] < current.weight) continue;
+        
+        for(Node next : graph[current.vertex]) {
+            if(dist[next.vertex] > dist[current.vertex] + next.weight) {
+                dist[next.vertex] = dist[current.vertex] + next.weight;
+                pq.offer(new Node(next.vertex, dist[next.vertex]));
+            }
+        }
+    }
+}
+
+class Node implements Comparable<Node> {
+    int vertex, weight;
+    
+    Node(int vertex, int weight) {
+        this.vertex = vertex;
+        this.weight = weight;
+    }
+    
+    @Override
+    public int compareTo(Node o) {
+        return weight - o.weight;
+    }
+}
+```
+
+### 4. 활용
+1. 내비게이션 시스템
+   - 실제 도로 네트워크에서 최단 경로 찾기
+2. 네트워크 라우팅 프로토콜
+   - OSPF(Open Shortest Path First) 등의 라우팅 프로토콜
+3. 소셜 네트워크
+   - 최소 단계로 연결된 사용자 찾기
+4. 게임 개발
+   - AI 경로 탐색
+   - 캐릭터 이동 경로 계산
+</details>
 
 <details>
   <summary><strong>Primitive vs Wrapper Class의 특징</strong></summary>
