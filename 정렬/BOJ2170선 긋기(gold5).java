@@ -7,6 +7,7 @@
  long 기본형은 == 연산자로 비교해도 값 비교
  가능하면 기본형 사용이 성능상 유리 -> 비교할때 되도록이면.==(참조비교)는 기본형으로 하자... 참조비교안일어나게 !!!
 
+그리고 진짜 중요한 점은 마지막선분까지 제대로 계산되도록 해야한다는것!!!!
 */
 
 import java.io.BufferedReader;
@@ -98,11 +99,11 @@ class Main {
                 start = arr.get(i)[0];
                 end = arr.get(i)[1];
             } else {  // 현재 선분과 겹치는 경우
-                end = Math.max(end, arr.get(i)[1]);
+                end = Math.max(end, arr.get(i)[1]); 
             }
-        }
-        answer += end - start;  // 마지막 선분 처리
-        
+        } 
+        answer += end - start;  // 마지막 선분 처리 --------------> 이부분 너무중요!!
+         
         System.out.println(answer);
     }
 }
