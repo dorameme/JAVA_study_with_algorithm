@@ -523,3 +523,104 @@ System.out.println(sum.get()); // 결과 출력
 
 
 </details>
+
+<details>
+  <summary><strong>개념-BFS/DFS 방문처리 시점</strong></summary>
+
+### 1. BFS/DFS 방문처리의 차이점
+DFS와 BFS에서 방문 체크 타이밍은 탐색 방식과 목적에 따라 다르게 설정된다. 
+이는 각각의 구조와 동작 방식에서 오는 차이로 이해할 수 있다.
+
+### 2. BFS의 방문체크
+BFS는 **큐에 넣을 때 방문체크**를 해야 한다.
+
+#### 2-1. 이유
+1. **큐의 중복 방지**
+   - BFS는 탐색할 노드들을 큐에 넣어서 처리한다.
+   - 방문체크를 큐에 넣을 때 하지 않으면 동일한 노드가 여러 번 큐에 들어가서 중복 탐색이 발생할 수 있다.
+   - 예를 들어, 서로 연결된 노드 A와 B가 있을 때, A를 탐색하면서 B를 큐에 넣고, B를 탐색하면서 다시 A를 큐에 넣는 문제가 발생한다.
+
+2. **메모리 관리**
+   - 중복된 노드들이 큐에 쌓이면 큐 크기가 불필요하게 커질 수 있다.
+   - 이는 메모리 사용량을 증가시키고, BFS의 성능 저하로 이어진다.
+
+#### 2-2. 코드 예시
+```java
+void bfs(int start) {
+    Queue<Integer> q = new LinkedList<>();
+    boolean[] visited = new boolean[N];
+    
+    q.add(start);         // 큐에 시작 노드 추가
+    visited[start] = true; // 큐에 넣을 때 방문 체크
+    
+    while (!q.isEmpty()) {
+        int node = q.poll();
+        System.out.println(node);
+
+        for (int next : graph[node]) {
+            if (!visited[next]) {
+                q.add(next);      
+                visited[next] = true; // 큐에 넣으면서 방문 체크
+            }
+        }
+    }
+}
+```
+
+### 3. DFS의 방문체크
+DFS는 **노드를 방문했을 때 체크**를 한다.
+
+#### 3-1. 이유
+1. **재귀적 특성**
+   - DFS는 재귀(스택)를 이용해 깊이 우선 탐색을 수행한다.
+   - 노드를 방문한 시점에서 방문체크를 수행해도 이미 호출된 함수가 끝난 후 스택에서 제거되므로 중복 탐색 문제가 발생하지 않는다.
+
+2. **백트래킹 용이성**
+   - DFS는 탐색 후 되돌아가야 하는 경우가 있다(백트래킹).
+   - 이 경우, 방문체크를 해제해야 하므로 방문 시점에서 체크하는 것이 자연스럽다.
+
+3. **구조적 단순성**
+   - 방문체크를 노드를 방문했을 때 수행하면, 다음 노드를 탐색하기 전후로 명확한 구분이 가능하다.
+   - 이는 재귀 구조에서 코드 작성과 가독성을 높이는 데 도움을 준다.
+
+#### 3-2. 코드 예시
+```java
+// 일반적인 DFS
+void dfs(int node) {
+    visited[node] = true; // 노드를 방문하며 체크
+    System.out.println(node);
+
+    for (int next : graph[node]) {
+        if (!visited[next]) {
+            dfs(next);
+        }
+    }
+}
+
+// 백트래킹이 필요한 DFS
+void dfsBacktracking(int node) {
+    visited[node] = true;
+    System.out.println(node);
+
+    for (int next : graph[node]) {
+        if (!visited[next]) {
+            dfsBacktracking(next);
+        }
+    }
+
+    visited[node] = false; // 백트래킹 시 방문 해제
+}
+```
+
+### 4. 실전 적용 팁
+1. **BFS 사용시**
+   - 큐를 효율적으로 관리하기 위해 큐에 넣을 때 방문체크를 한다.
+   - 시작 노드도 큐에 넣을 때 방문체크를 해야 한다.
+   - 큐에서 꺼낼 때 방문체크를 하면 메모리 초과가 날 수 있다.
+
+2. **DFS 사용시**
+   - 노드 방문 시점에서 체크한다.
+   - 백트래킹이 필요한 경우 방문 해제도 고려한다.
+   - 사이클이 있는 그래프는 무한루프에 빠지지 않도록 주의한다.
+
+</details>
