@@ -60,7 +60,7 @@ public class Solution {
         
         for (int i = 1; i <= k; i++) 
             for (int j = i; j > 0; j--) 
-                arr[j] = arr[j] + arr[j - 1];
+                arr[j] = arr[j] + arr[j - 1]; // key point! -> 덮어쓰기때문에 뒤에서부터 앞으로 와야함..
         
         return Arrays.asList(arr);
     }
