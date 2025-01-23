@@ -12,10 +12,8 @@ class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
         if (root != null) {
             answer.add(root.val);
-            if (root.left != null)
-                preorderTraversal(root.left);
-            if (root.right != null)
-                preorderTraversal(root.right);
+            preorderTraversal(root.left);
+            preorderTraversal(root.right);
         }
         return answer;
     }
