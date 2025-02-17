@@ -7,6 +7,7 @@ end:13:42
 1. 0부터 시작!
 2.현재 nums에서 가져온값을 cur이라하면 
 3. dp 가 -1 이 아닌 애들에 한해 dp[cur] = dp[cur], dp[x-cur]+1 이 된다!!
+주의할거는 중복방지를 위해 뒤에서부터 탐색해야 한다는것 ~_~!!!!!!!! 그래서 target ~ nums 순으로 for문을 돌려준다
 */
 
 class Solution {
