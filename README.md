@@ -624,3 +624,38 @@ void dfsBacktracking(int node) {
    - 사이클이 있는 그래프는 무한루프에 빠지지 않도록 주의한다.
 
 </details>
+
+
+
+<details>
+  <summary><strong>ArrayDeque vs LinkedList 비교</strong></summary>
+
+| 항목      | ArrayDeque                   | LinkedList             |
+| ------- | ---------------------------- | ---------------------- |
+| 내부 구조   | 동적 배열 기반                     | 이중 연결 리스트              |
+| 접근 속도   | 빠름 (배열 기반)                   | 느림 (노드 탐색 필요)          |
+| 메모리 사용  | 더 적음                         | 노드마다 포인터를 저장하므로 더 큼    |
+| null 저장 | 불가능 (`NullPointerException`) | 가능                     |
+| 스레드 안전성 | 비동기 (Thread-safe 아님)         | 비동기 (Thread-safe 아님)   |
+| 주요 특징   | 빠른 큐/스택 연산<br>연속된 공간에 저장     | 삽입/삭제가 자주 일어날 때 유리     |
+| 성능      | 대부분의 경우 더 빠름                 | 큐/스택보다는 삽입/삭제에 특화      |
+| 용도      | 큐 또는 스택 구조 구현 시 적합           | 데이터의 중간 삽입/삭제가 많을 때 적합 |
+
+### 사용 예시
+
+```java
+// ArrayDeque 사용
+Deque<Integer> deque = new ArrayDeque<>();
+deque.addFirst(1);
+deque.addLast(2);
+
+// LinkedList 사용
+Deque<Integer> deque = new LinkedList<>();
+deque.addFirst(1);
+deque.addLast(2);
+```
+
+ **요약**: 큐나 스택을 구현할 때는 **ArrayDeque**가 일반적으로 더 성능이 좋으며, 연결 리스트처럼 중간 삽입/삭제가 필요한 상황에서는 **LinkedList**가 유리하다.
+
+</details>
+
